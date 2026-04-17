@@ -1,0 +1,31 @@
+services:
+  redpanda:
+    image: redpandadata/redpanda:v26.1.5
+    command:
+      - redpanda start
+      - --smp 1
+      - --mode dev-container
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:39092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:39092
+    ports:
+      - "39092:39092"
+
+  console:
+    image: docker.redpanda.com/redpandadata/console:v3.7.1
+    ports:
+      - "38080:8080"
+    environment:
+      - KAFKA_BROKERS=redpanda:9092
+    depends_on:
+      - redpanda
+
+  generator:
+    image: python:3.12-slim
+    volumes:
+      - ./generator:/app
+    working_dir: /app
+    command: sh -c "pip install confluent-kafka && python generator.py"
+    environment:
+      - MAX_MESSAGES=100
+    depends_on:
+      - redpanda
