@@ -2,12 +2,14 @@
 
 Read and modify Kafka consumer offsets in Flink savepoints using the State Processor API.
 
-Flink 2.1.1 / flink-connector-kafka 4.0.1-2.0.
+Uses:
+
+- Flink 2.1.1
+- flink-connector-kafka 4.0.1-2.0
 
 ## Blog post
 
-Detailed walkthrough: [Reading and Modifying Kafka Consumer Offsets Using the State Processor API](https://streamacademy.io/tutorial/flink-kafka-consumer-offsets-with-the-state-processor-api/)
-
+Detailed walkthrough: [Reading and Modifying Kafka Consumer Offsets Using the State Processor API](https://streamacademy.io/tutorial/flink-kafka-consumer-offsets-with-the-state-processor-api/).
 
 ## Components
 

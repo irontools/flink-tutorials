@@ -1,0 +1,44 @@
+services:
+  postgres-source:
+    image: postgres:17
+    command:
+      - postgres
+      - -c
+      - wal_level=logical
+      - -c
+      - max_replication_slots=10
+      - -c
+      - max_wal_senders=10
+    environment:
+      POSTGRES_USER: flink
+      POSTGRES_PASSWORD: flink
+      POSTGRES_DB: source
+    ports:
+      - "35432:5432"
+    volumes:
+      - ./postgres/source-init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres-target:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: flink
+      POSTGRES_PASSWORD: flink
+      POSTGRES_DB: target
+    ports:
+      - "35433:5432"
+
+  generator:
+    image: python:3.12-slim
+    volumes:
+      - ./generator:/app
+    working_dir: /app
+    command: sh -c "pip install psycopg[binary] && python generator.py"
+    environment:
+      - PG_HOST=postgres-source
+      - PG_PORT=5432
+      - PG_USER=flink
+      - PG_PASSWORD=flink
+      - PG_DATABASE=source
+      - MAX_MESSAGES=100
+    depends_on:
+      - postgres-source
