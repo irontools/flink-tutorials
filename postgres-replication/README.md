@@ -10,7 +10,7 @@ Uses:
 
 ## Blog post
 
-Detailed walkthrough: [Postgres to Postgres Replication with Flink CDC](https://streamacademy.io/tutorial/flink-postgres-cdc-replication//).
+Detailed walkthrough: [Postgres to Postgres Replication with Flink CDC](https://streamacademy.io/tutorial/flink-postgres-cdc-replication/).
 
 ## Pipeline
 
